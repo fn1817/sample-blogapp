@@ -13,6 +13,6 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   # root = 「/」のこと 特に指定がなければarticles#indexを表示する
-  root to: 'articles#index'
+  root to: "articles#index"
   # get '/' => 'home#index'
 end
