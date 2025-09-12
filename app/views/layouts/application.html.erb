@@ -2,7 +2,7 @@
 <html>
   <head>
     <title><%= content_for(:title) || "Blogapp" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%# <meta name="viewport" content="width=device-width,initial-scale=1"> %>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -13,12 +13,25 @@
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
+    <%# application.scssの読み込み %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
 
   <body>
-  <p>レイアウトだよ</p>
+    <header class="header">
+        <p class="header_pageTitle">新着記事</p>
+        <div class="dropdown">
+          <%# Railsではイメージ画像を挿入するとき、image_tagというRubyのメソッドを使う決まりがある%>
+          <%# 第一引数：imageファイルの名称、第二引数：クラス名 %>
+          <%= image_tag 'default-avatar.png', class: 'header_avatar dropbtn' %>
+          <div class="dropdown-content">
+            <a href="#">プロフィール</a>
+            <a href="#">ログアウト</a>
+          </div>
+        </div>
+    </header>
     <%= yield %>
   </body>
 </html>
