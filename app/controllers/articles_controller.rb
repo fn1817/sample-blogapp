@@ -3,4 +3,3 @@ class ArticlesController < ApplicationController
         @article = Article.first
     end
 end
-
