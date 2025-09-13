@@ -17,5 +17,5 @@ Rails.application.routes.draw do
   # get '/' => 'home#index'
 
   # URLをRailsが一括作成
-  resources :articles, only: [:show, :new, :create]
+  resources :articles, only: [ :show, :new, :create ]
 end

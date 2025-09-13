@@ -20,10 +20,10 @@ class ArticlesController < ApplicationController
         # もしDBに値が保存されていれば、作成された記事のページに飛ぶ
         if @article.save
             # 新しいリクエストが発生し、ページを遷移する
-            redirect_to article_path(@article), notice: '保存できたよ'
+            redirect_to article_path(@article), notice: "保存できたよ"
         else
             # flashは成功した場合と失敗した場合で記述方式が異なる
-            flash.now[:error] = '保存に失敗しました'
+            flash.now[:error] = "保存に失敗しました"
             # render :new→同じリクエストのままnew.html.erbを表示し直す=@articleには入力されたtitleとcontentが入っている状態でnew.html.erbを表示
             # status: :unprocessable_entity→バリデーションエラー（必須項目が空など）のときにHTTPステータスコード422を返す
             render :new, status: :unprocessable_entity
@@ -37,9 +37,9 @@ class ArticlesController < ApplicationController
         # params:formから送信されるデータが入っている
         # .require(:article):パラメータの中にarticleというキーが必要です
         # .permit(:title, :content):articleキーの中でtitleとcontentのみ許可します
-        puts '----------------'
+        puts "----------------"
         puts params
-        puts '----------------'
+        puts "----------------"
         params.require(:article).permit(:title, :content)
     end
 end
