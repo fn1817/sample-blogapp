@@ -22,6 +22,9 @@ gem "jbuilder"
 # 以下を追記
 gem "sassc-rails"
 
+# 以下を追記
+gem "faker"
+
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 
