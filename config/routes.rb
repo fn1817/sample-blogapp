@@ -15,4 +15,7 @@ Rails.application.routes.draw do
   # root = 「/」のこと 特に指定がなければarticles#indexを表示する
   root to: "articles#index"
   # get '/' => 'home#index'
+
+  # URLをRailsが一括作成
+  resources :articles, only: [:show]
 end
