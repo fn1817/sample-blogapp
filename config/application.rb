@@ -23,5 +23,7 @@ module Blogapp
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    # デフォルトの言語は日本語であることを指定
+    config.i18n.default_locale = :ja
   end
 end
