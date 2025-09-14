@@ -30,6 +30,26 @@ class ArticlesController < ApplicationController
         end
     end
 
+    def edit
+        @article = Article.find(params[:id])
+    end
+
+    def update
+        # update対象のArticleレコードを取得（putメソッドのurl:/articles/:idに入っているidを取得）
+        @article = Article.find(params[:id])
+        # 対象の値を更新
+        # もし更新できたら、更新した記事のページに飛ぶ
+        if @article.update(article_params)
+            # 新しいリクエストが発生し、ページを遷移する
+            redirect_to article_path(@article), notice: "更新できました"
+        else
+            flash.now[:error] = "更新できませんでした"
+            # render :edit→同じリクエストのままedit.html.erbを表示し直す
+            # status: :unprocessable_entity→バリデーションエラー（必須項目が空など）のときにHTTPステータスコード422を返す
+            render :edit, status: :unprocessable_entity
+        end
+    end
+
     # Strong Parameterにはprivateをつける決まりがある
     private
     # Strong Parameter
