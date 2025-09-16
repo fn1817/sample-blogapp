@@ -12,6 +12,8 @@
         <div class="dropdown-content mini">
           <%# editの場合はidを渡す必要があるので、showアクションで定義した@articleのデータ行を渡すと、Rails側でそのオブジェクトのidを自動的に使ってURLを作ってくれる %>
           <%= link_to '編集する', edit_article_path(@article) %>
+          <%# link_toはデフォルトではGETリクエストとして送信されるのでmethodを指定 %>
+          <%= link_to '削除する', article_path(@article), data: { turbo_method: 'delete', turbo_confirm: '本当に削除してもよろしいですか？' } %>
         </div>
       </div>
     </div>

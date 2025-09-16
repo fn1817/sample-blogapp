@@ -35,7 +35,7 @@ class ArticlesController < ApplicationController
     end
 
     def update
-        # update対象のArticleレコードを取得（putメソッドのurl:/articles/:idに入っているidを取得）
+        # update対象のArticleレコードを取得（putアクション時のurl:/articles/:idに入っているidを取得）
         @article = Article.find(params[:id])
         # 対象の値を更新
         # もし更新できたら、更新した記事のページに飛ぶ
@@ -48,6 +48,16 @@ class ArticlesController < ApplicationController
             # status: :unprocessable_entity→バリデーションエラー（必須項目が空など）のときにHTTPステータスコード422を返す
             render :edit, status: :unprocessable_entity
         end
+    end
+
+    def destroy
+        # destroy対象のArticleレコードを取得（DELETEリクエスト時のurl:/articles/:idに入っているidを取得）
+        @article = Article.find(params[:id])
+        # !マークをつけておくと削除されなかった時に例外が発生し、ここで処理が止まる
+        # 削除行為はユーザ側ではなく、内部処理の問題のため、削除できなかった時は処理を止める必要がある
+        @article.destroy!
+        # 新しいリクエストが発生し、ページを遷移する
+        redirect_to root_path, status: :see_other, notice: "削除に成功しました"
     end
 
     # Strong Parameterにはprivateをつける決まりがある
