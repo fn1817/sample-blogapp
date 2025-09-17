@@ -1,40 +1,14 @@
 <div class="container">
-  <div class="tabs">
-    <div class="tabs_item active">
-      新着記事一覧
-    </div>
-    <div class="tabs_item">
-      タイムライン
-    </div>
-  </div>
+  <%# _tabs.html.erbの呼び出し %>
+  <%= render 'tabs' %>
 
   <% @articles.each do |article| %>
+    <%# 部分テンプレートに値を渡す %>
+    <%# article:（_article.html.erb内に記載されているarticleのこと） article（each文のarticleのこと） %>
+    <%= render 'article', article: article, title: 'aaa' %>
     <%# カードごとのリンクの作成（idを指定する必要あり）%>
     <%# link_to article_path(id: article.id)%>
     <%# article_path(article)も同上の意味で、自動でidを推測して作成してくれる%>
-    <%= link_to article_path(article) do%>
-      <div class="card">
-        <div class="card_image">
-          <%= image_tag 'eyecatch1.png' %>
-        </div>
-        <div class="card_content">
-          <div class="card_title">
-          <%= article.title %>
-          </div>
-          <div class="card_heart">
-            <%= image_tag 'heart.svg' %>
-            <span>23</span>
-          </div>
-          <div class="card_detail">
-            <%= image_tag 'default-avatar.png' %>
-            <div>
-              <p>cohki0305</p>
-              <p>2020/4/16</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    <% end %>
   <% end %>
   <%= link_to new_article_path do %>
     <div class="float_btn">

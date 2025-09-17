@@ -1,0 +1,27 @@
+<%= link_to article_path(article) do%>
+    <%= title %>
+      <div class="card">
+        <div class="card_image">
+          <%= image_tag 'eyecatch1.png' %>
+        </div>
+        <div class="card_content">
+          <div class="card_title">
+          <%= article.title %>
+          </div>
+          <div class="card_heart">
+            <%= image_tag 'heart.svg' %>
+            <span>23</span>
+          </div>
+          <div class="card_detail">
+            <%= image_tag 'default-avatar.png' %>
+            <div>
+              <p>cohki0305</p>
+              <%# I18n：日付など、国際化するためにRailsが準備しているクラス %>
+              <%# format :default→ja.ymlのdefaultを適用 %>
+              <%# articleインスタンスはそのクラスに定義されているメソッド（display_created_at）を使える %>
+              <p><%= article.display_created_at %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>

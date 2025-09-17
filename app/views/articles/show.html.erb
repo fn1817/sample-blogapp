@@ -4,7 +4,8 @@
     <%= image_tag 'default-avatar.png' %>
     <div>
       <p>cohki0305</p>
-      <p>2020/4/16</p>
+      <%# 記事作成日付の表示 %>
+      <p><%= @article.display_created_at %></p>
     </div>
     <div class="article_detail_actions">
       <div class="dropdown">

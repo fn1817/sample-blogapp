@@ -23,7 +23,16 @@
 
   <body>
     <header class="header">
-        <p class="header_pageTitle">新着記事</p>
+    <div class="header_logos">
+      <%# Railsで準備されている機能で、現時点でroot_pathにいなかったら実行（戻るボタンを表示） %>
+      <% if !current_page?(root_path)%>
+        <%# Railsで準備されている機能で、前にアクセスしたURLを覚えておき、戻ることができる %>
+        <%= link_to :back do %>
+          <%= image_tag 'back.svg', class: 'header_back' %>
+        <% end %>
+      <% end %>
+      <p class="header_pageTitle">Blogapp</p>
+    </div>
         <div class="dropdown">
           <%# Railsではイメージ画像を挿入するとき、image_tagというRubyのメソッドを使う決まりがある%>
           <%# 第一引数：imageファイルの名称、第二引数：クラス名 %>
