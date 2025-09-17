@@ -1,11 +1,12 @@
 class ArticlesController < ApplicationController
+    # 指定したアクションの実行前にのみbefore_actionに記載したメソッドを実行する
+    before_action :set_article, only: [:show, :edit, :update]
+
     def index
         @articles = Article.all
     end
 
     def show
-        # URL「/articles/:id」の「:id」をparamsで取得し、Articleの該当id行データを取得
-        @article = Article.find(params[:id])
     end
 
     def new
@@ -31,12 +32,10 @@ class ArticlesController < ApplicationController
     end
 
     def edit
-        @article = Article.find(params[:id])
+        # editを実行する前にbefore_actionで記載したメソッドが実行される
     end
 
     def update
-        # update対象のArticleレコードを取得（putアクション時のurl:/articles/:idに入っているidを取得）
-        @article = Article.find(params[:id])
         # 対象の値を更新
         # もし更新できたら、更新した記事のページに飛ぶ
         if @article.update(article_params)
@@ -52,10 +51,10 @@ class ArticlesController < ApplicationController
 
     def destroy
         # destroy対象のArticleレコードを取得（DELETEリクエスト時のurl:/articles/:idに入っているidを取得）
-        @article = Article.find(params[:id])
+        article = Article.find(params[:id])
         # !マークをつけておくと削除されなかった時に例外が発生し、ここで処理が止まる
         # 削除行為はユーザ側ではなく、内部処理の問題のため、削除できなかった時は処理を止める必要がある
-        @article.destroy!
+        article.destroy!
         # 新しいリクエストが発生し、ページを遷移する
         redirect_to root_path, status: :see_other, notice: "削除に成功しました"
     end
@@ -71,5 +70,10 @@ class ArticlesController < ApplicationController
         puts params
         puts "----------------"
         params.require(:article).permit(:title, :content)
+    end
+
+    def set_article
+        # 取得した値をClass内で使えるようにインスタンス変数とする
+        @article = Article.find(params[:id])
     end
 end
