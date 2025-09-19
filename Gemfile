@@ -26,6 +26,9 @@ gem "sassc-rails"
 gem "faker"
 
 # 以下を追記
+gem 'hamlit'
+
+# 以下を追記
 gem "importmap-rails"
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
@@ -52,11 +55,17 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  # 以下を追記
+  gem 'pry-byebug'
 end
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+
+  # 以下を追記（erb→haml変換用）
+  gem 'erb2haml'
 end
 
 group :test do
