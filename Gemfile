@@ -29,6 +29,9 @@ gem "faker"
 gem 'hamlit'
 
 # 以下を追記
+gem 'annotate'
+
+# 以下を追記
 gem "importmap-rails"
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
@@ -66,6 +69,9 @@ group :development do
 
   # 以下を追記（erb→haml変換用）
   gem 'erb2haml'
+
+  # 以下を追記
+  gem 'rubocop-rails'
 end
 
 group :test do
