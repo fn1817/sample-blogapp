@@ -1,6 +1,8 @@
 class ArticlesController < ApplicationController
     # 指定したアクションの実行前にのみbefore_actionに記載したメソッドを実行する
     before_action :set_article, only: [ :show, :edit, :update ]
+    # ログインしていないと使えないようにする
+    before_action :authenticate_user!, only: [ :new, :create, :edit, :update, :destroy ]
 
     def index
         @articles = Article.all

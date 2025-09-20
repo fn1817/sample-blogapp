@@ -32,6 +32,8 @@ gem 'importmap-rails'
 gem 'better_errors'
 # 以下を追記
 gem 'binding_of_caller'
+# 以下を追記
+gem 'devise'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
