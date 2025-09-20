@@ -1,9 +1,9 @@
 class ArticlesController < ApplicationController
     # 指定したアクションの実行前にのみbefore_actionに記載したメソッドを実行する
-    before_action :set_article, only: [:show, :edit, :update]
+    before_action :set_article, only: [ :show, :edit, :update ]
 
     def index
-        @articles = Article.all
+        @articles = Article
     end
 
     def show
@@ -21,10 +21,10 @@ class ArticlesController < ApplicationController
         # もしDBに値が保存されていれば、作成された記事のページに飛ぶ
         if @article.save
             # 新しいリクエストが発生し、ページを遷移する
-            redirect_to article_path(@article), notice: "保存できたよ"
+            redirect_to article_path(@article), notice: '保存できたよ'
         else
             # flashは成功した場合と失敗した場合で記述方式が異なる
-            flash.now[:error] = "保存に失敗しました"
+            flash.now[:error] = '保存に失敗しました'
             # render :new→同じリクエストのままnew.html.erbを表示し直す=@articleには入力されたtitleとcontentが入っている状態でnew.html.erbを表示
             # status: :unprocessable_entity→バリデーションエラー（必須項目が空など）のときにHTTPステータスコード422を返す
             render :new, status: :unprocessable_entity
@@ -32,7 +32,7 @@ class ArticlesController < ApplicationController
     end
 
     def edit
-        # editを実行する前にbefore_actionで記載したメソッドが実行される
+      # editを実行する前にbefore_actionで記載したメソッドが実行される
     end
 
     def update
@@ -40,9 +40,9 @@ class ArticlesController < ApplicationController
         # もし更新できたら、更新した記事のページに飛ぶ
         if @article.update(article_params)
             # 新しいリクエストが発生し、ページを遷移する
-            redirect_to article_path(@article), notice: "更新できました"
+            redirect_to article_path(@article), notice: '更新できました'
         else
-            flash.now[:error] = "更新できませんでした"
+            flash.now[:error] = '更新できませんでした'
             # render :edit→同じリクエストのままedit.html.erbを表示し直す
             # status: :unprocessable_entity→バリデーションエラー（必須項目が空など）のときにHTTPステータスコード422を返す
             render :edit, status: :unprocessable_entity
@@ -56,7 +56,7 @@ class ArticlesController < ApplicationController
         # 削除行為はユーザ側ではなく、内部処理の問題のため、削除できなかった時は処理を止める必要がある
         article.destroy!
         # 新しいリクエストが発生し、ページを遷移する
-        redirect_to root_path, status: :see_other, notice: "削除に成功しました"
+        redirect_to root_path, status: :see_other, notice: '削除に成功しました'
     end
 
     # Strong Parameterにはprivateをつける決まりがある
@@ -66,9 +66,9 @@ class ArticlesController < ApplicationController
         # params:formから送信されるデータが入っている
         # .require(:article):パラメータの中にarticleというキーが必要です
         # .permit(:title, :content):articleキーの中でtitleとcontentのみ許可します
-        puts "----------------"
+        puts '----------------'
         puts params
-        puts "----------------"
+        puts '----------------'
         params.require(:article).permit(:title, :content)
     end
 
