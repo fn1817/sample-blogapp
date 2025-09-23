@@ -3,10 +3,12 @@
   .article_detail
     = image_tag 'default-avatar.png'
     %div
-      %p cohki0305
+      -# - if @article.user.present?（記事を書いたユーザが存在していれば実行（アカウント名を表示））を削除
+      -# .user = Railsが自動でこの記事を書いたユーザを返す
+      %p= @article.author_name
       %p= @article.display_created_at
-    - if user_signed_in?
-      -# ログインしていれば実行
+    - if user_signed_in? && current_user.has_written?(@article)
+      -# ログインしている&ログインユーザがこの記事を書いていれば実行（編集・削除ボタンを表示）
       .article_detail_actions
         .dropdown
           = image_tag 'actions.svg', class: 'dropbtn'
