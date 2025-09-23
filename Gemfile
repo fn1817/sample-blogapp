@@ -25,7 +25,6 @@ gem 'faker'
 # 以下を追記
 gem 'hamlit'
 # 以下を追記
-gem 'annotate'
 # 以下を追記
 gem 'importmap-rails'
 # 以下を追記
@@ -78,3 +77,6 @@ group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
 end
+
+gem 'annotate'
+

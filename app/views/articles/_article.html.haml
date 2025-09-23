@@ -12,5 +12,8 @@
       .card_detail
         = image_tag 'default-avatar.png'
         %div
-          %p cohki0305
+          -# 記事を書いたユーザが存在していれば実行（アカウント名を表示）を削除
+          -# - if article.user.present?
+          -# これだけだと、どれかの記事のユーザが存在しない場合、「undefined method `display_name' for nil」エラーになる（=userがnil）
+          %p= article.author_name
           %p= article.display_created_at
