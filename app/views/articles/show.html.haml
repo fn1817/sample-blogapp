@@ -19,3 +19,17 @@
     = @article.content
   .article_heart
     = image_tag 'heart.svg'
+
+-# コメント一覧の表示
+.article
+  %h2 コメント一覧
+  - @comments.each do |comment|
+    .article_comment
+      -# コメント内容の表示
+      %p= comment.content
+
+.container
+  -# オブジェクトを渡しているのにidに展開されるのはRailsが自動でやってくれているから
+  = link_to new_article_comment_path(@article) do
+    .btn-secondary
+      コメントを追加

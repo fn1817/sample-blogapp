@@ -33,6 +33,10 @@ class Article < ApplicationRecord
     # 独自ルールの作成
     validate :validate_title_and_content_length
 
+    # comments = CommentモデルとRailsが解釈してくれる
+    # dependent: :destroy = 記事が削除された時にコメントも全て削除する
+    has_many :comments, dependent: :destroy
+
     # 記事はuserモデルに所属している
     belongs_to :user
 
