@@ -1,0 +1,8 @@
+# プロフィールで定義したenum(gender)の多言語対応用ファイル
+# 日本語対応
+ja:
+  enum:
+    genders:
+      male: "男性"
+      female: "女性"
+      other: "その他"

@@ -22,4 +22,8 @@ Rails.application.routes.draw do
     # 記事のURLの後ろにコメントのURLを続ける場合、入れ子構造にする（とRails側で自動でURLを一括作成してくれる）
     resources :comments, only: [ :new, :create ]
   end
+
+  # resourceでは単数系のリソースとして扱うため、index（複数のレコードを一覧表示するためのアクション）が用意されない
+  # プロフィールは1ユーザに対して1プロフィールなので、indexは不要
+  resource :profile, only: [ :show, :edit, :update ]
 end

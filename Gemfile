@@ -79,4 +79,3 @@ group :test do
 end
 
 gem 'annotate'
-
