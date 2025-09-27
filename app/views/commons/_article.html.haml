@@ -1,5 +1,4 @@
 = link_to article_path(article) do
-  = title
   .card
     .card_image
       = image_tag 'eyecatch1.png'
@@ -10,7 +9,8 @@
         = image_tag 'heart.svg'
         %span 23
       .card_detail
-        = image_tag 'default-avatar.png'
+        -# avatar_imageメソッドの呼び出し
+        = image_tag article.user.avatar_image
         %div
           -# 記事を書いたユーザが存在していれば実行（アカウント名を表示）を削除
           -# - if article.user.present?

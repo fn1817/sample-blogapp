@@ -1,0 +1,38 @@
+.container
+  %ul
+    - @profile.errors.full_messages.each do |message|
+      %li= message
+  = form_with(model: @profile, url: profile_path, method: 'put', local: true) do |f|
+    %div
+      = f.label :avatar, 'アバター'
+    %div
+      -# file_field:ファイルをアップロードするためのもの
+      = f.file_field :avatar
+    %div
+      = f.label :nickname, 'ハンドルネーム'
+    %div
+      = f.text_field :nickname, class: 'text'
+    %div
+      = f.label :introduction, '自己紹介'
+    %div
+      = f.text_area :introduction
+    %div
+      = f.label :gender, '性別'
+    %div
+      -# 選択肢を配列に入れることもできるが、値が変わることもあるので非推奨
+      -# = f.select :gender, ['male', 'female', 'other']
+      -# selectではclassを第4引数に渡す必要があるので、間に1つ空の{}を渡す必要がある
+      -# = f.select(:gender, Profile.genders.keys, {}, { class: 'text' })
+      -# 第2引数を[['男性', 'male'], ['女性', 'female']]にすると'男性'/'女性'がselectオプションのラベルとして表示され、male/femaleがvalueとしてサーバに送信されるので、
+      -# この表示形式にするために第2引数をmap型変数でkey,valueの値を置き換える
+      = f.select :gender, Profile.genders.map { |k, v| [ I18n.t("enum.genders.#{k}"), k ] }, {}, { class: 'text' }
+    %div
+      = f.label :birthday, '生年月日'
+    %div
+      = f.date_field :birthday, class: 'text'
+    %div
+      = f.label :subscribed, '通知を受け取る'
+    %div
+      = f.check_box :subscribed
+
+    = f.submit '保存', class: 'btn-primary'
