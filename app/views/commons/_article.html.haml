@@ -1,13 +1,17 @@
 = link_to article_path(article) do
   .card
-    .card_image
-      = image_tag 'eyecatch1.png'
+    -# attached?:画像がアップロードされているかどうか判定
+    -# .eyecatchは空の枠のようなオブジェクトが存在する状態なので、nilにはならない=ぼっち演算子を使わなくてOK（エラーにならない）
+    - if article.eyecatch.attached?
+      .card_image
+        = image_tag article.eyecatch
     .card_content
       .card_title
         = article.title
       .card_heart
         = image_tag 'heart.svg'
-        %span 23
+        -# いいね数の表示
+        %span= article.like_count
       .card_detail
         -# avatar_imageメソッドの呼び出し
         = image_tag article.user.avatar_image

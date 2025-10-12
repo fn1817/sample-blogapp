@@ -74,10 +74,7 @@ class ArticlesController < ApplicationController
         # params:formから送信されるデータが入っている
         # .require(:article):パラメータの中にarticleというキーが必要です
         # .permit(:title, :content):articleキーの中でtitleとcontentのみ許可します
-        puts '----------------'
-        puts params
-        puts '----------------'
-        params.require(:article).permit(:title, :content)
+        params.require(:article).permit(:title, :content, :eyecatch)
     end
 
     def set_article
