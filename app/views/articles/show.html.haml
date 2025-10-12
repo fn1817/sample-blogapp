@@ -1,4 +1,9 @@
 .article
+  -# attached?:画像がアップロードされているかどうか判定
+  -# .eyecatchは空の枠のようなオブジェクトが存在する状態なので、nilにはならない=ぼっち演算子を使わなくてOK（エラーにならない）
+  - if @article.eyecatch.attached?
+    .article_image
+      = image_tag @article.eyecatch
   %h1.article_title= @article.title
   .article_detail
     -# avatar_imageメソッドの呼び出し
@@ -18,8 +23,21 @@
             = link_to '削除する', article_path(@article), data: { turbo_method: 'delete', turbo_confirm: '本当に削除してもよろしいですか？' }
   .article_content
     = @article.content
-  .article_heart
-    = image_tag 'heart.svg'
+  -# ログインしていないと「いいね」できないようにする
+  - if user_signed_in?
+    -# ログインユーザがこの記事をいいねしているか
+    -if current_user.has_liked?(@article)
+      -# いいねしていれば、ハートを赤色にする
+      .article_heart
+        -# いいねしている状態でハートをクリックしたらいいね解除（URL:/articles/:article_id/likeを生成してlikes#destroyを実行）
+        = link_to article_like_path(@article), data: { turbo_method: :delete } do
+          = image_tag 'heart-active.svg'
+          -# それ以外であればハートは無色のまま
+    -else
+      .article_heart
+        -# いいねを押したらURL:/articles/:article_id/likeを生成してlikes#createを実行
+        = link_to article_like_path(@article), data: { turbo_method: :post } do
+          = image_tag 'heart.svg'
 
 -# コメント一覧の表示
 .article

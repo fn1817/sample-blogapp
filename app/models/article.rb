@@ -15,6 +15,10 @@
 #
 
 class Article < ApplicationRecord
+    # has_one_attached:Active Storageのメソッドで、モデルに「1つのファイルを添付できる」ことを宣言
+    # Articleでアイキャッチ画像をアップロード・取得できるようにする
+    has_one_attached :eyecatch
+
     # titleが入力されていないと保存しません
     # ApplicationRecordが保存しないだけでSQLは関係ない
     validates :title, presence: true
@@ -37,12 +41,23 @@ class Article < ApplicationRecord
     # dependent: :destroy = 記事が削除された時にコメントも全て削除する
     has_many :comments, dependent: :destroy
 
+    # likes = LikeモデルとRailsが解釈してくれる
+    # dependent: :destroy = articleが削除された時にいいねも全て削除する
+    # Active Recordがarticle.likesメソッド（関連するlikesレコードを返す）を自動で使えるようにしてくれる
+    has_many :likes, dependent: :destroy
+
     # 記事はuserモデルに所属している
     belongs_to :user
 
     # 記事を作成した日付の表示
     def display_created_at
         I18n.l(self.created_at, format: :default)
+    end
+
+    # いいね数をカウントするメソッド
+    def like_count
+        # countはActiveRecord側で用意されているメソッド（likesが1つもなければ0を返す）
+        likes.count
     end
 
     def author_name

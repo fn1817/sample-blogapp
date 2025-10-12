@@ -21,7 +21,9 @@
         - if !current_page?(root_path)
           = link_to :back do
             = image_tag 'back.svg', class: 'header_back'
-        %p.header_pageTitle Blogapp
+        %p.header_pageTitle
+          -# ロゴボタンクリックでトップ画面に戻る
+          = link_to 'Blogapp', root_path
       - if user_signed_in?
         -# ログインしていれば実行（ログインアイコンを表示）
         .dropdown
@@ -30,6 +32,8 @@
           .dropdown-content
             -# プロフィール画面へのリンクの修正
             = link_to 'プロフィール', profile_path
+            -# お気に入り画面へのリンク
+            = link_to 'お気に入り', favorites_path
             -# ログアウト機能の追加
             = link_to 'ログアウト', destroy_user_session_path, data: { turbo_method: 'delete' }
       - else

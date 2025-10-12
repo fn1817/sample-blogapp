@@ -20,10 +20,17 @@ Rails.application.routes.draw do
   # URLをRailsが一括作成
   resources :articles do
     # 記事のURLの後ろにコメントのURLを続ける場合、入れ子構造にする（とRails側で自動でURLを一括作成してくれる）
+    # resourcesとすると、URL上で複数あるcommentの中でidを指定する必要が出てくる（showやeditで/articles/:article_id/comments/:id が必要になる）
     resources :comments, only: [ :new, :create ]
+    # 記事のURLの後ろにいいねのURLを続ける場合、入れ子構造にする（とRails側で自動でURLを一括作成してくれる）
+    # resourcesとすると、URL上で複数あるlikeの中でidを指定する必要が出てくるが、特定の記事に対していいねは1つなので、/articles/:article_idがあればlikeは1つ（resource=1つ）でOK
+    # likesテーブルにレコードを作成（=post）するのでcreate、いいねを外したときはレコードを削除するのでdestroy
+    resource :like, only: [ :create, :destroy ]
   end
 
   # resourceでは単数系のリソースとして扱うため、index（複数のレコードを一覧表示するためのアクション）が用意されない
   # プロフィールは1ユーザに対して1プロフィールなので、indexは不要
   resource :profile, only: [ :show, :edit, :update ]
+  # 「いいね」した記事一覧を表示するためのURLを定義
+  resources :favorites, only: [ :index ]
 end

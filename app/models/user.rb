@@ -3,10 +3,22 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+
   # articles = ArticleモデルとRailsが解釈してくれる
   # dependent: :destroy = userが削除された時に記事も全て削除する
   # Active Recordがuser.articlesメソッド（関連するarticlesレコードを返す）を自動で使えるようにしてくれる
   has_many :articles, dependent: :destroy
+
+  # likes = LikeモデルとRailsが解釈してくれる
+  # dependent: :destroy = userが削除された時にいいねも全て削除する
+  # Active Recordがuser.likesメソッド（関連するlikesレコードを返す）を自動で使えるようにしてくれる
+  has_many :likes, dependent: :destroy
+  # ログインユーザがいいねした記事だけを取得できる（Active Recordがuser.favorite_articlesメソッドを自動で使えるようにしてくれる）
+  # through: likes = 中間（likes）テーブルを通して記事を取得できる
+  # source: :article = favorite_articlesはarticleであることを示す（Likeモデルのbelongs_to :articleを通してArticleを取得する）
+  # has_many :articles, through: likesでも良いが、「has_many :articles, dependent: :destroy」（ログインユーザが作成した記事）と混同しやすいのでfavorite_articlesを使う
+  has_many :favorite_articles, through: :likes, source: :article
+
   # profile = ProfileモデルとRailsが解釈してくれる
   # Active Recordがuser.profileメソッド（関連するProfileレコードを返す）を自動で使えるようにしてくれる
   has_one :profile, dependent: :destroy
@@ -18,6 +30,11 @@ class User < ApplicationRecord
   # 引数articleに入ってきた記事が対象ユーザの記事として存在するか
   def has_written?(article)
     articles.exists?(id: article.id)
+  end
+
+  # 引数articleに入ってきた記事を対象ユーザ（メソッド呼び出し元のユーザ）がいいねしているか
+  def has_liked?(article)
+    likes.exists?(article_id: article.id)
   end
 
   # sample@sample.comの場合
