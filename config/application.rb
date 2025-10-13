@@ -17,10 +17,12 @@ module Blogapp
     config.load_defaults 7.2
 
     # .envファイルを読み込む
-    # 現在のRails環境に対応するGemfileのgemを全てロードする
-    # Bundler.require(*Rails.groups)
-    # Rails起動時にdotenvも読み込む
-    # Dotenv::Railtie.load
+    # if Rails.env.development? || Rails.env.test?
+      # 現在のRails環境に対応するGemfileのgemを全てロードする
+      # Bundler.require(*Rails.groups)
+      # Rails起動時にdotenvも読み込む
+      # Dotenv::Railtie.load
+    # end
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.

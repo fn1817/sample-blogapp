@@ -5,7 +5,7 @@
   "website": "",
   "repository": "https://github.com/cohki0305/blogapp",
   "env": {},
-  "addons": ["heroku-postgresql:hobby-dev"],
+  "addons": ["heroku-postgresql:essential-0"],
   "buildpacks": [
     {
       "url": "heroku/nodejs"
