@@ -2,6 +2,11 @@ require_relative 'boot'
 
 require 'rails/all'
 
+# Railsの実行環境がdevelopmentまたはtestなら、.envファイルを読み込んで環境変数を設定する
+# if ['development', 'test'].include? ENV['RAILS_ENV']
+#   Dotenv::Railtie.load
+# end
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
@@ -10,6 +15,12 @@ module Blogapp
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.2
+
+    # .envファイルを読み込む
+    # 現在のRails環境に対応するGemfileのgemを全てロードする
+    # Bundler.require(*Rails.groups)
+    # Rails起動時にdotenvも読み込む
+    # Dotenv::Railtie.load
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.

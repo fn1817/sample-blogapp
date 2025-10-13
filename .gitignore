@@ -38,3 +38,6 @@
 !/app/assets/builds/.keep
 
 /node_modules
+
+# このファイルに記述したものはGit管理の対象外とする
+.env

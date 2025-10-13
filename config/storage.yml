@@ -7,13 +7,18 @@ local:
   root: <%= Rails.root.join("storage") %>
 
 # Use bin/rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
-# amazon:
-#   service: S3
-#   access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
-#   secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
-#   region: us-east-1
-#   bucket: your_own_bucket-<%= Rails.env %>
-
+# amazonに関する記述部分のコメントアウトを解除
+# 動作が問題なければ.envファイルに転記するので、以下の機密情報が入った状態でコミットやアップロードは絶対しないこと
+amazon:
+  service: S3
+  # .envに記述されているパラメータを記述
+  access_key_id: <%= ENV['AWS_ACCESS_KEY'] %>
+  # .envに記述されているパラメータを記述
+  secret_access_key: <%= ENV['AWS_SECRET_KEY'] %>
+  # リージョンを記述
+  region: ap-northeast-1
+  # バケット名を記述
+  bucket: <%= ENV['AWS_BUCKET_NAME'] %>
 # Remember not to checkin your GCS keyfile to a repository
 # google:
 #   service: GCS
