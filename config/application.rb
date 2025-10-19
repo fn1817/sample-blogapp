@@ -16,6 +16,9 @@ module Blogapp
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.2
 
+    # Active Storageが画像加工するときにMiniMagickという画像処理ライブラリを使うように設定（ImageMagickソフト（C言語）をRuby経由で操作）
+    config.active_storage.variant_processor = :mini_magick
+
     # .envファイルを読み込む
     # if Rails.env.development? || Rails.env.test?
       # 現在のRails環境に対応するGemfileのgemを全てロードする
