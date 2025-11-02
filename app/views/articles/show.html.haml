@@ -6,8 +6,10 @@
       = image_tag @article.eyecatch
   %h1.article_title= @article.title
   .article_detail
-    -# avatar_imageメソッドの呼び出し
-    = image_tag @article.user.avatar_image
+    -# この記事を作成したユーザ情報のページに飛ぶ（@article.userでuser_idを自動で取得）（accounts#showを実行）
+    = link_to account_path(@article.user) do
+      -# avatar_imageメソッドの呼び出し
+      = image_tag @article.user.avatar_image
     %div
       -# - if @article.user.present?（記事を書いたユーザが存在していれば実行（アカウント名を表示））を削除
       -# .user = Railsが自動でこの記事を書いたユーザを返す

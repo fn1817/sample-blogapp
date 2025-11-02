@@ -19,6 +19,22 @@ class User < ApplicationRecord
   # has_many :articles, through: likesでも良いが、「has_many :articles, dependent: :destroy」（ログインユーザが作成した記事）と混同しやすいのでfavorite_articlesを使う
   has_many :favorite_articles, through: :likes, source: :article
 
+  # 自分がフォロワーになっている値（=follower_idが自分のuser_id）を取得すれば、自分がフォローしている人がわかる
+  # （User has_many :likesとすると、Railsはlikesテーブルのuser_idが外部キーと判断してくれるが、Relationshipsテーブルにはuser_idがないため）外部キーを指定する必要がある
+  # following_relationshipというモデルはないので、Relationshipモデルであることを明示する
+  # dependent: :destroy = userが削除された時にフォローも全て削除する
+  has_many :following_relationships, foreign_key: 'follower_id', class_name: 'Relationship', dependent: :destroy
+  # 自分がフォローしている人を取得するには、relationshipsテーブルを通してfollowing_idを取得する必要がある
+  has_many :followings, through: :following_relationships, source: :following
+
+  # 自分がフォローされている値（=following_idが自分のuser_id）を取得すれば、自分をフォローしている人がわかる
+  # （User has_many :likesとすると、Railsはlikesテーブルのuser_idが外部キーと判断してくれるが、Relationshipsテーブルにはuser_idがないため）外部キーを指定する必要がある
+  # follower_relationshipsというモデルはないので、Relationshipモデルであることを明示する
+  # dependent: :destroy = userが削除された時にフォローも全て削除する
+  has_many :follower_relationships, foreign_key: 'following_id', class_name: 'Relationship', dependent: :destroy
+  # 自分をフォローしている人を取得するには、relationshipsテーブルを通してfollower_idを取得する必要がある
+  has_many :followers, through: :follower_relationships, source: :follower
+
   # profile = ProfileモデルとRailsが解釈してくれる
   # Active Recordがuser.profileメソッド（関連するProfileレコードを返す）を自動で使えるようにしてくれる
   has_one :profile, dependent: :destroy
@@ -37,25 +53,32 @@ class User < ApplicationRecord
     likes.exists?(article_id: article.id)
   end
 
-  # sample@sample.comの場合
-  def display_name
-    # ['sample', 'sample.com']に分離し、0番目の文字列をアカウント名代わりにする
-    # user.profile.nicknameがある場合はそれを表示し、ない場合は上記を表示する
-    # ||は左辺を評価して、当てはまらなかったら右辺を実行する
-    # この場合、profileがnilだとnil.nicknameでエラーとなるので、別の書き方をする
-    # profile.nickname || self.email.split('@').first
+  # 例外が発生するメソッドであることを明示するために!をつけている
+  def follow!(user)
+    # get_user_idメソッドの呼び出し
+    user_id = get_user_id(user)
+    # 外部キー（follower_id）は自動で自分が指定される
+    # 引数で指定したuserをフォローする
+    # 自分（follower_id）がフォローする関係（Relationship）を1件作る
+    following_relationships.create!(following_id: user_id)
+  end
 
-    # # もしプロフィールが存在するかつ、nicknameがあれば
-    # if profile && profile.nickname
-    #   # nicknameを表示
-    # 	profile.nickname
-    # else
-    # 	# ['sample', 'sample.com']に分離し、0番目の文字列をアカウント名代わりにする
-    #   self.email.split('@').first
-    # end
-    # もしプロフィールが存在するかつ、nicknameがあればnicknameを表示、そうでなければ['sample', 'sample.com']に分離し、0番目の文字列をアカウント名代わりにする
-    # &.:ぼっち演算子（profileがnilではなかった場合だけ.nicknameを実行）
-    profile&.nickname || self.email.split('@').first
+  # 例外が発生するメソッドであることを明示するために!をつけている
+  def unfollow!(user)
+    # get_user_idメソッドの呼び出し
+    user_id = get_user_id(user)
+    # 外部キー（follower_id）は自動で自分が指定される
+    # 引数で指定したuserのフォローを外す
+    # find_by!で例外が発生したら処理を止める（本来、自分がフォローしていないユーザのフォローを外すことはありえないので、必ず対象ユーザが見つかることを前提に!をつけている）
+    relation = following_relationships.find_by!(following_id: user_id)
+    # destroy!は削除されるのが通常なので!をつけている
+    relation.destroy!
+  end
+
+  # Followをしているか/していないかをチェックするメソッド
+  def has_followed?(user)
+    # 自分がFollowしている人達の中に存在するか
+    following_relationships.exists?(following_id: user.id)
   end
 
   # def birthday
@@ -74,14 +97,16 @@ class User < ApplicationRecord
     profile || build_profile
   end
 
-  def avatar_image
-    # attached?:画像がアップロードされているかどうか判定
-    # .avatarは空の枠のようなオブジェクトが存在する状態で、ファイルがアップロードされているとは限らない
-    # profileが存在する場合はavatarメソッドに進み、profileが存在しない場合はnilを返す（エラーにならない）
-    if profile&.avatar&.attached?
-      profile.avatar
+  private
+  # follow!メソッドとunfollow!メソッドでしか使わないので、privateにする
+  def get_user_id(user)
+    # もし渡ってきた引数userがUserクラスのインスタンスだったら
+    if user.is_a?(User)
+      # user.idを返す
+      user.id
     else
-      'default-avatar.png'
+      # 渡ってきた引数userがuser_idだったらそのまま返す
+      user
     end
   end
 end
