@@ -57,7 +57,7 @@ gem 'bootsnap', require: false
 gem "image_processing", "~> 1.2"
 # 以下を追記
 # gem 'webpacker', '~> 4.0', '>= 4.0.7'
-gem 'psych', '~> 3.1'
+gem 'psych', '~> 5.2'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
