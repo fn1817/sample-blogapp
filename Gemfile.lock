@@ -165,7 +165,7 @@ GEM
       temple (>= 0.8.2)
       thor
       tilt
-    hamlit (3.0.3)
+    hamlit (4.0.0)
       temple (>= 0.8.2)
       thor
       tilt
