@@ -17,6 +17,9 @@ Rails.application.routes.draw do
   root to: 'articles#index'
   # get '/' => 'home#index'
 
+  # タイムラインは1ユーザに対して1つしかないので、resourceにする
+  resource :timeline, only: [ :show ] # %i(show)でも同義
+
   # URLをRailsが一括作成
   resources :articles do
     # 記事のURLの後ろにコメントのURLを続ける場合、入れ子構造にする（とRails側で自動でURLを一括作成してくれる）
@@ -26,6 +29,16 @@ Rails.application.routes.draw do
     # resourcesとすると、URL上で複数あるlikeの中でidを指定する必要が出てくるが、特定の記事に対していいねは1つなので、/articles/:article_idがあればlikeは1つ（resource=1つ）でOK
     # likesテーブルにレコードを作成（=post）するのでcreate、いいねを外したときはレコードを削除するのでdestroy
     resource :like, only: [ :create, :destroy ]
+  end
+
+  # ユーザプロフィールの詳細ページを開いてフォローボタンを表示するためのURLを作成
+  # usersという名前がdeviseで既に使われているので、別の名前（accounts）で定義（Userモデルを別名で扱っているだけ）
+  # resourcesとして、URL上で複数あるaccountsの中でidを指定する
+  resources :accounts, only: [ :show ] do
+    # 指定したidのaccountをFollowするRelationshipを作る
+    resources :follows, only: [ :create ]
+    # 指定したidのaccountをunfollowするRelationshipを作る
+    resources :unfollows, only: [ :create ]
   end
 
   # resourceでは単数系のリソースとして扱うため、index（複数のレコードを一覧表示するためのアクション）が用意されない

@@ -1,0 +1,33 @@
+
+.container.profilePage
+  .profilePage_user
+    .profilePage_user_image
+      -# avatar_imageメソッドの呼び出し
+      = image_tag user.avatar_image
+    .profilePage_user_basicInfo
+      .profilePage_user_name
+        .profilePage_user_displayName
+          -# 一行で複数表示する場合、#{}で囲う
+          -# I18n.t("xx")でenum.ja.ymlファイルの階層をたどり、xxの値を返す（仮にcurrent_user.gender = maleだと'男性'を返す）
+          -# user.age = nillの場合、||以降の値を使う, user.gender = nillの場合、||以降の値を使う
+          #{user.display_name} (#{user.age || '?歳'}・#{I18n.t("enum.genders.#{user.gender || 'unknown'}")})
+        .profilePage_user_actionButton
+          -# もしユーザがログインユーザだったらEditボタンを表示
+          - if user == current_user
+            = link_to 'Edit', edit_profile_path
+          - else
+            -# ログインユーザが既にフォローしているユーザだったらUnfollowボタンを表示
+            -# current_userが存在しない場合 → nilを返して次のメソッドには進まない（エラーにならない）
+            - if current_user&.has_followed?(user)
+              = link_to 'Unfollow', account_unfollows_path(user), data: { turbo_method: 'post' }
+            - else
+              -# もしログインユーザがまだフォローしてない、記事を作成したユーザだったらFollowボタンを表示
+              = link_to 'Follow', account_follows_path(user), data: { turbo_method: 'post' }
+      .profilePage_user_introduction
+        = user.profile&.introduction
+
+  -# ログインユーザの作成した記事一覧を表示
+  - user.articles.each do |article|
+    -# _article.html.hamlをコピペ
+    = render 'commons/article', article: article
+
