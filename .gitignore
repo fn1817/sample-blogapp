@@ -41,3 +41,4 @@
 
 # このファイルに記述したものはGit管理の対象外とする
 .env
+test_ignore.txt

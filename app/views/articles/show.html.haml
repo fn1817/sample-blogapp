@@ -1,4 +1,4 @@
-.article
+.article#article-show{data: {article_id: @article.id}}
   -# attached?:画像がアップロードされているかどうか判定
   -# .eyecatchは空の枠のようなオブジェクトが存在する状態なので、nilにはならない=ぼっち演算子を使わなくてOK（エラーにならない）
   - if @article.eyecatch.attached?
@@ -27,30 +27,25 @@
     = @article.content
   -# ログインしていないと「いいね」できないようにする
   - if user_signed_in?
-    -# ログインユーザがこの記事をいいねしているか
-    -if current_user.has_liked?(@article)
-      -# いいねしていれば、ハートを赤色にする
-      .article_heart
-        -# いいねしている状態でハートをクリックしたらいいね解除（URL:/articles/:article_id/likeを生成してlikes#destroyを実行）
-        = link_to article_like_path(@article), data: { turbo_method: :delete } do
-          = image_tag 'heart-active.svg'
-          -# それ以外であればハートは無色のまま
-    -else
-      .article_heart
-        -# いいねを押したらURL:/articles/:article_id/likeを生成してlikes#createを実行
-        = link_to article_like_path(@article), data: { turbo_method: :post } do
-          = image_tag 'heart.svg'
+    .article_heart.hidden.active-heart
+      = image_tag 'heart-active.svg'
+    .article_heart.hidden.inactive-heart
+      = image_tag 'heart.svg'
 
 -# コメント一覧の表示
 .article
   %h2 コメント一覧
-  - @comments.each do |comment|
-    .article_comment
-      -# コメント内容の表示
-      %p= comment.content
+  .comments-container
 
 .container
-  -# オブジェクトを渡しているのにidに展開されるのはRailsが自動でやってくれているから
-  = link_to new_article_comment_path(@article) do
-    .btn-secondary
+  -# フォームを表示するためのボタン
+  .btn-secondary.show-comment-form
+    コメントを追加
+  -# フォームを表示するためのボタンを押すまで非表示
+  .comment-text-area.hidden
+    -# text_area_tag = textareaを表示するためのhelperメソッド（Railsで用意されている）
+    -# :comment_content = パラメータ名, '' = 初期値
+    = text_area_tag :comment_content, '', class: 'sm'
+    -# コメントを追加するためのボタン
+    .btn-secondary.add-comment-button
       コメントを追加

@@ -24,11 +24,11 @@ Rails.application.routes.draw do
   resources :articles do
     # 記事のURLの後ろにコメントのURLを続ける場合、入れ子構造にする（とRails側で自動でURLを一括作成してくれる）
     # resourcesとすると、URL上で複数あるcommentの中でidを指定する必要が出てくる（showやeditで/articles/:article_id/comments/:id が必要になる）
-    resources :comments, only: [ :new, :create ]
+    resources :comments, only: [ :index, :new, :create ]
     # 記事のURLの後ろにいいねのURLを続ける場合、入れ子構造にする（とRails側で自動でURLを一括作成してくれる）
     # resourcesとすると、URL上で複数あるlikeの中でidを指定する必要が出てくるが、特定の記事に対していいねは1つなので、/articles/:article_idがあればlikeは1つ（resource=1つ）でOK
     # likesテーブルにレコードを作成（=post）するのでcreate、いいねを外したときはレコードを削除するのでdestroy
-    resource :like, only: [ :create, :destroy ]
+    resource :like, only: [ :show, :create, :destroy ]
   end
 
   # ユーザプロフィールの詳細ページを開いてフォローボタンを表示するためのURLを作成

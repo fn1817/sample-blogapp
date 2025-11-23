@@ -6,11 +6,11 @@ class ArticlesController < ApplicationController
 
     def index
         @articles = Article.all
+        # render 'articles/index'（デフォルトで自動でrenderするようになっている）
     end
 
     def show
-        # 記事に紐づいたコメントを取得して@commentsに代入
-        @comments = @article.comments
+
     end
 
     def new
