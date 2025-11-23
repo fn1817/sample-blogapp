@@ -40,6 +40,8 @@ gem 'aws-sdk-s3', require: false
 # gem 'action_text-trix'
 # 以下を追記
 gem 'active_decorator'
+# 以下を追記
+gem 'active_model_serializers'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"

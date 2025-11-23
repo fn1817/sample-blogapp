@@ -5,22 +5,22 @@ class CommentsController < ApplicationController
         @comment = article.comments.build
     end
 
+    def index
+        article = Article.find(params[:article_id])
+        comments = article.comments
+        render json: comments
+    end
+
     def create
         # コメント対象の記事を探し、articleに代入
         article = Article.find(params[:article_id])
+        # 対象の記事のcommentsコレクションの末尾に新しいCommentオブジェクトを追加
         # comment_paramsに渡された内容を元にコメントレコードを作成
-        # renderする時に@comment（インスタンス変数）として定義しておかないと、new.html.hamlで@commentを使用しているのでエラーになる
         @comment = article.comments.build(comment_params)
-        # もしDBに値が保存されれば、コメントした記事のページ（articles#show）に飛ぶ
-        if @comment.save
-            # オブジェクトを渡しているのにidに展開されるのはRailsが自動でやってくれているから
-            redirect_to article_path(article), notice: 'コメントを追加'
-        else
-            flash.now[:error] = '更新できませんでした'
-            # render :new→同じリクエストのままcomments > new.html.hamlを表示し直す=formの内容は入ったまま再表示
-            # status: :unprocessable_entity→バリデーションエラー（必須項目が空など）のときにHTTPステータスコード422を返す
-            render :new, status: :unprocessable_entity
-        end
+        # リクエスト前にjavaScript側でエラーをチェックするので、リクエストがきた後は必ずsaveできるはず→!を付ける
+        @comment.save!
+        # Active Serializerで作成されたJSONを返す
+        render json: @comment
     end
 
     private
@@ -29,5 +29,6 @@ class CommentsController < ApplicationController
         # .require(:comment):パラメータの中にcommentというキーが必要です
         # .permit(:content):commentキーの中でcontentのみ許可します
         params.require(:comment).permit(:content)
+        # {comment: {content: 'aaa'}}となっている必要がある
     end
 end
