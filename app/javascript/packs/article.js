@@ -40,7 +40,7 @@ const appendNewComment = (comment) => {
 
 // turbo:loadにすると、リロードした時も画面遷移した時もイベントが発生
 // APIにリクエストを投げて「いいね」されているかどうかチェックする
-document.addEventListener("turbo:load", () => {
+document.addEventListener("turbo:load", initArticlePage) => {
   // #article-showに書かれているdata属性をオブジェクトとして取得
   // 例：（HTML）data-article-id="14"→（javaScript）{ articleId: 14 }にjQueryが自動で変換し取得
   const dataset = $("#article-show").data();
