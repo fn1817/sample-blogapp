@@ -1,4 +1,4 @@
-.article#article-show{data: {article_id: @article.id}}
+.article#article-show{ data: { article_id: @article.id } }
   -# attached?:画像がアップロードされているかどうか判定
   -# .eyecatchは空の枠のようなオブジェクトが存在する状態なので、nilにはならない=ぼっち演算子を使わなくてOK（エラーにならない）
   - if @article.eyecatch.attached?
