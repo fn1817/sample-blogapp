@@ -16,3 +16,5 @@ pin "axios", to: "https://cdn.skypack.dev/axios@1.13.2"
 pin "modules/handle_heart", to: "modules/handle_heart.js"
 # axios.jsを追加
 pin "modules/axios", to: "modules/axios.js"
+# article.jsを追加
+pin "packs/article", to: "packs/article.js"
