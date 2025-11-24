@@ -85,6 +85,9 @@ group :development do
   gem 'erb2haml'
   # 以下を追記
   gem 'rubocop-rails'
+  # 以下を追記
+  gem 'letter_opener'
+  gem 'letter_opener_web', '~> 3.0'
 end
 
 group :test do

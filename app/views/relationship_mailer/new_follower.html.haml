@@ -1,0 +1,6 @@
+%p #{@user.email} さん
+%p 以下のユーザにフォローされました。
+
+-# account_url = routes.rbを元にRailsが自動生成したURL Helper（ヘルパーメソッド）（フルURLを生成）
+-# account_urlの引数（@follower）のidをRailsが自動で取り出してURLを作成（例：https://example.com/accounts/5など）
+= link_to 'プロフィールを確認する', account_url(@follower)

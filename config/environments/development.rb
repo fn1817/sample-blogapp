@@ -43,6 +43,12 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
+  # 以下を追記
+  # letter_opener_webを使ってメールを送付する（メールを実際には送信せず、ブラウザで確認できるようにする、送信内容を/letter_openerのWebページで確認可能、開発環境で本番メールを送らずにテストできる）
+  config.action_mailer.delivery_method = :letter_opener_web
+  # perform_deliveries = メールを実際に送信するかどうかの設定（true = メール送信処理を実際に実行する（今回はブラウザに出力される））
+  config.action_mailer.perform_deliveries = true
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
