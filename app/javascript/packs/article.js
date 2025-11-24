@@ -1,6 +1,6 @@
 // node_modulesフォルダにあるjQueryを読み込み、jQueryが使えるようになる
 // import $ from "jquery";
-import $ from "jquery";
+import "jquery";
 import axios from "modules/axios";
 // 以下を追記
 import {
