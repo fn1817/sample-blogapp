@@ -45,6 +45,8 @@ gem 'active_decorator'
 gem 'active_model_serializers'
 # 以下を追記
 gem 'sidekiq'
+# 以下を追記
+gem 'redis'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
