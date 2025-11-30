@@ -1,4 +1,9 @@
+# SidekiqのWeb UI（管理画面）をRailsアプリ内で使うために必要
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
+  # Sidekiqでキューやジョブの状況を見られるようにする
+  mount Sidekiq::Web => '/sidekiq' if Rails.env.development?
   # development環境であれば、「/letter_opener」というURLにアクセスすると、LetterOpenerWebの内容が見られるようになる
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 

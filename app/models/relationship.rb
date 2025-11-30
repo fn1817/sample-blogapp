@@ -28,6 +28,7 @@ class Relationship < ApplicationRecord
     def send_email
         # 誰かがフォローされた時にメールを送信する
         # following, followerメソッドの返り値（following_id, follower_idを使ってUserモデルから取得したレコード）が引数に入る
-        RelationshipMailer.new_follower(following, follower).deliver_now
+        # deliver_now = 同期的に今送信する, deliver_later = 非同期で送信する（sidekiqの設定をしないと動かない）
+        RelationshipMailer.new_follower(following, follower).deliver_later
     end
 end
