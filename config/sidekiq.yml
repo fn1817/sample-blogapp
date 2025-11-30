@@ -1,0 +1,7 @@
+# キューが溜まっている時にワーカーが同時に処理するジョブの数（1 = 1件ずつ順番に処理）
+:concurrency: 1
+# 「default」と「mailers」の2つのキューを持っている
+:queues:
+  # 記載順に処理が優先される（defaultが空にならないとmailersの処理は実行されない）
+  - default
+  - mailers
