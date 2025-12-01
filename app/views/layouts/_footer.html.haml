@@ -1,0 +1,10 @@
+%footer.footer-container
+  -# もし現在の言語設定が英語だったら日本語のリンクを表示
+  - if I18n.locale == :en
+    -# url_for = URLのパラメータだけ変更できる
+    -# 引数にハッシュを渡すと、キーをパラメータ名、値をパラメータ値としてURLに付与する「?locale=ja」
+    = link_to '日本語', url_for(locale: :ja)
+    -# もし現在の言語設定が英語以外だったら英語のリンクを表示
+  - else
+    -# 引数にハッシュを渡すと、キーをパラメータ名、値をパラメータ値としてURLに付与する「?locale=en」
+    = link_to 'English', url_for(locale: :en)

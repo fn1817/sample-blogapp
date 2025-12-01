@@ -34,7 +34,8 @@
 
 -# コメント一覧の表示
 .article
-  %h2 コメント一覧
+  -# URL末尾が「?locale=ja」だと「articles.ja.yml」の情報を、「?locale=en」だと「articles.en.yml」の情報をとってきて表示する
+  %h2= I18n.t('articles.comment_list')
   .comments-container
 
 .container
