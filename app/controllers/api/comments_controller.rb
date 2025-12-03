@@ -1,9 +1,4 @@
-class CommentsController < ApplicationController
-    def new
-        # comments#newのURLは/articles/:article_id/comments/newなので、記事のidはarticle_idで取得できる
-        article = Article.find(params[:article_id])
-        @comment = article.comments.build
-    end
+class Api::CommentsController < Api::ApplicationController
 
     def index
         article = Article.find(params[:article_id])

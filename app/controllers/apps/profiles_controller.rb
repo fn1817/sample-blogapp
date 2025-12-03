@@ -1,6 +1,4 @@
-class ProfilesController < ApplicationController
-    # ログインしていないと使えないようにする
-    before_action :authenticate_user!
+class Apps::ProfilesController < Apps::ApplicationController
 
     def show
         # ログインユーザのプロフィールを取得
