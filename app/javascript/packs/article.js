@@ -53,7 +53,7 @@ document.addEventListener("turbo:load", () => {
 
   // 記事詳細ページが読み込まれたら、コメント一覧を表示
   axios
-    .get(`/articles/${articleId}/comments`)
+    .get(`/api/articles/${articleId}/comments`)
     // 処理成功時
     .then((response) => {
       // コメント一覧の取得
@@ -80,7 +80,7 @@ document.addEventListener("turbo:load", () => {
     } else {
       // contentが入っていたらpostリクエストを送信
       axios
-        .post(`/articles/${articleId}/comments`, {
+        .post(`/api/articles/${articleId}/comments`, {
           // comment_paramsメソッドに沿った形式で送信
           comment: { content: content },
         })
@@ -96,7 +96,7 @@ document.addEventListener("turbo:load", () => {
   });
 
   // リクエストがうまく行ったらレスポンスが返ってくる
-  axios.get(`/articles/${articleId}/like`).then((response) => {
+  axios.get(`/api/articles/${articleId}/like`).then((response) => {
     // hasLikedの値（true/false）を取得
     const hasLiked = response.data.hasLiked;
     // 変数の呼び出し

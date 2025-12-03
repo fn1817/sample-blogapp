@@ -1,4 +1,4 @@
-class LikesController < ApplicationController
+class Api::LikesController < Api::ApplicationController
     # ログインしていないと使えないようにする
     before_action :authenticate_user!
 

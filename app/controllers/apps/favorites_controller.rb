@@ -1,6 +1,4 @@
-class FavoritesController < ApplicationController
-    # ログインしていないと使えないようにする
-    before_action :authenticate_user!
+class Apps::FavoritesController < Apps::ApplicationController
 
     def index
         # ログインユーザがいいねしたlikesテーブル上の記事一覧を取得し、@articlesに代入

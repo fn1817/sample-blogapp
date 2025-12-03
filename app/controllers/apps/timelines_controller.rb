@@ -1,6 +1,4 @@
-class TimelinesController < ApplicationController
-# ログインしていなければ処理を止めてログイン画面にリダイレクト（未ログインの場合、showアクションは実行されない）
-before_action :authenticate_user!
+class Apps::TimelinesController < Apps::ApplicationController
 
     # 自分がフォローしているユーザの記事一覧を取得する
     def show

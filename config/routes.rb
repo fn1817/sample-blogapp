@@ -25,19 +25,8 @@ Rails.application.routes.draw do
   root to: 'articles#index'
   # get '/' => 'home#index'
 
-  # タイムラインは1ユーザに対して1つしかないので、resourceにする
-  resource :timeline, only: [ :show ] # %i(show)でも同義
-
   # URLをRailsが一括作成
-  resources :articles do
-    # 記事のURLの後ろにコメントのURLを続ける場合、入れ子構造にする（とRails側で自動でURLを一括作成してくれる）
-    # resourcesとすると、URL上で複数あるcommentの中でidを指定する必要が出てくる（showやeditで/articles/:article_id/comments/:id が必要になる）
-    resources :comments, only: [ :index, :new, :create ]
-    # 記事のURLの後ろにいいねのURLを続ける場合、入れ子構造にする（とRails側で自動でURLを一括作成してくれる）
-    # resourcesとすると、URL上で複数あるlikeの中でidを指定する必要が出てくるが、特定の記事に対していいねは1つなので、/articles/:article_idがあればlikeは1つ（resource=1つ）でOK
-    # likesテーブルにレコードを作成（=post）するのでcreate、いいねを外したときはレコードを削除するのでdestroy
-    resource :like, only: [ :show, :create, :destroy ]
-  end
+  resources :articles
 
   # ユーザプロフィールの詳細ページを開いてフォローボタンを表示するためのURLを作成
   # usersという名前がdeviseで既に使われているので、別の名前（accounts）で定義（Userモデルを別名で扱っているだけ）
@@ -49,9 +38,28 @@ Rails.application.routes.draw do
     resources :unfollows, only: [ :create ]
   end
 
-  # resourceでは単数系のリソースとして扱うため、index（複数のレコードを一覧表示するためのアクション）が用意されない
-  # プロフィールは1ユーザに対して1プロフィールなので、indexは不要
-  resource :profile, only: [ :show, :edit, :update ]
-  # 「いいね」した記事一覧を表示するためのURLを定義
-  resources :favorites, only: [ :index ]
+  # ログインしないと使えないコントローラーをまとめる
+  scope module: :apps do
+    # 「いいね」した記事一覧を表示するためのURLを定義
+    resources :favorites, only: [ :index ]
+    # タイムラインは1ユーザに対して1つしかないので、resourceにする
+    resource :timeline, only: [ :show ] # %i(show)でも同義
+    # resourceでは単数系のリソースとして扱うため、index（複数のレコードを一覧表示するためのアクション）が用意されない
+    # プロフィールは1ユーザに対して1プロフィールなので、indexは不要
+    resource :profile, only: [ :show, :edit, :update ]
+  end
+
+  # namespace配下のものは全てjsonフォーマットとして指定
+  namespace :api, defaults: {format: :json} do
+    # 先頭に指定したURLを付ける（URLだけ変更）
+    scope '/articles/:article_id' do
+      # 記事のURLの後ろにコメントのURLを続ける場合、入れ子構造にする（とRails側で自動でURLを一括作成してくれる）
+      # resourcesとすると、URL上で複数あるcommentの中でidを指定する必要が出てくる（showやeditで/articles/:article_id/comments/:id が必要になる）
+      resources :comments, only: [ :index, :create ]
+      # 記事のURLの後ろにいいねのURLを続ける場合、入れ子構造にする（とRails側で自動でURLを一括作成してくれる）
+      # resourcesとすると、URL上で複数あるlikeの中でidを指定する必要が出てくるが、特定の記事に対していいねは1つなので、/articles/:article_idがあればlikeは1つ（resource=1つ）でOK
+      # likesテーブルにレコードを作成（=post）するのでcreate、いいねを外したときはレコードを削除するのでdestroy
+      resource :like, only: [ :show, :create, :destroy ]
+    end
+  end
 end
