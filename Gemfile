@@ -81,6 +81,12 @@ group :development, :test do
 
   # 以下を追記
   gem 'dotenv-rails'
+
+  # 以下を追記
+  gem 'rspec-rails'
+
+  # 以下を追記
+  gem 'factory_bot_rails'
 end
 
 group :development do
