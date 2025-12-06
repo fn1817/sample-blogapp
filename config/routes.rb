@@ -50,7 +50,7 @@ Rails.application.routes.draw do
   end
 
   # namespace配下のものは全てjsonフォーマットとして指定
-  namespace :api, defaults: {format: :json} do
+  namespace :api, defaults: { format: :json } do
     # 先頭に指定したURLを付ける（URLだけ変更）
     scope '/articles/:article_id' do
       # 記事のURLの後ろにコメントのURLを続ける場合、入れ子構造にする（とRails側で自動でURLを一括作成してくれる）

@@ -14,7 +14,7 @@
 #  index_relationships_on_following_id  (following_id)
 #
 
-require "test_helper"
+require 'test_helper'
 
 class RelationshipTest < ActiveSupport::TestCase
   # test "the truth" do

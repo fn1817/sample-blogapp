@@ -1,5 +1,4 @@
 class Apps::ProfilesController < Apps::ApplicationController
-
     def show
         # ログインユーザのプロフィールを取得
         # current_user:Deviseに備わっているメソッドで、現在ログインしているユーザーオブジェクトを返す

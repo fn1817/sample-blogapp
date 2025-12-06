@@ -21,10 +21,10 @@ module Blogapp
 
     # .envファイルを読み込む
     # if Rails.env.development? || Rails.env.test?
-      # 現在のRails環境に対応するGemfileのgemを全てロードする
-      # Bundler.require(*Rails.groups)
-      # Rails起動時にdotenvも読み込む
-      # Dotenv::Railtie.load
+    # 現在のRails環境に対応するGemfileのgemを全てロードする
+    # Bundler.require(*Rails.groups)
+    # Rails起動時にdotenvも読み込む
+    # Dotenv::Railtie.load
     # end
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do

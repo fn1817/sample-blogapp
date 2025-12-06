@@ -6,11 +6,10 @@ class ArticlesController < ApplicationController
 
     def index
         @articles = Article.all
-        # render 'articles/index'（デフォルトで自動でrenderするようになっている）
+      # render 'articles/index'（デフォルトで自動でrenderするようになっている）
     end
 
     def show
-
     end
 
     def new

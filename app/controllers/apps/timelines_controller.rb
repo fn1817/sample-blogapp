@@ -1,5 +1,4 @@
 class Apps::TimelinesController < Apps::ApplicationController
-
     # 自分がフォローしているユーザの記事一覧を取得する
     def show
         # ログインユーザがフォローしている全てのユーザのidを取得

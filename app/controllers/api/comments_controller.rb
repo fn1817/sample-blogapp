@@ -1,5 +1,4 @@
 class Api::CommentsController < Api::ApplicationController
-
     def index
         article = Article.find(params[:article_id])
         comments = article.comments
@@ -24,6 +23,6 @@ class Api::CommentsController < Api::ApplicationController
         # .require(:comment):パラメータの中にcommentというキーが必要です
         # .permit(:content):commentキーの中でcontentのみ許可します
         params.require(:comment).permit(:content)
-        # {comment: {content: 'aaa'}}となっている必要がある
+      # {comment: {content: 'aaa'}}となっている必要がある
     end
 end
