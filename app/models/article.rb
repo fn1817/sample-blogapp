@@ -27,7 +27,7 @@ class Article < ApplicationRecord
     # titleが2文字以上100文字以下でないと保存しません
     validates :title, length: { minimum: 2, maximum: 100 }
     # titleの先頭の文字が@だと保存しません（Brakemanの脆弱性を修正）
-    validates :title, format: { with: /\A[^@].*\z/ }
+    validates :title, format: { with: /\A(?!@).+\z/}
 
     # contentが入力されていないと保存しません
     validates :content, presence: true
