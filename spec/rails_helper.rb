@@ -72,6 +72,13 @@ RSpec.configure do |config|
 
   # RSpecの中でFactoryBotのメソッドを「FactoryBot.」なしで使えるようにする設定
   config.include FactoryBot::Syntax::Methods
-  # RSpecのrequest specでDeviseの機能を使えるようにする
+  # RSpecのrequest spec, system specでDeviseの機能を使えるようにする
   config.include Devise::Test::IntegrationHelpers, type: :request
+  config.include Devise::Test::IntegrationHelpers, type: :system
+
+  # RSpecの中でlogin_as/logoutなどのWarden（Deviseの奥にいる本人認証エンジン）テスト用メソッドを使えるようにする
+  config.include Warden::Test::Helpers
+  # before(:suite) = bundle exec rspecを実行した瞬間=最初のテストが始まる前に1回だけ実行される
+  # Wardenをテスト専用モードにする
+  config.before(:suite) { Warden.test_mode! }
 end

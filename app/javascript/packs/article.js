@@ -34,7 +34,10 @@ const handleCommentForm = () => {
 const appendNewComment = (comment) => {
   $(".comments-container").append(
     // append = そのタグの中にHTMLを挿入する
-    `<div class="article_comment"><p>${comment.content}</p></div>`
+    $("<div>")
+      .addClass("article_comment")
+      // .text = HTMLとして解釈せずただの文字として扱う
+      .append($("<p>").text(comment.content))
   );
 };
 
